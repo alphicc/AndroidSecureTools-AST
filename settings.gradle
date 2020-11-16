@@ -1,0 +1,3 @@
+include ':AndroidSecureTools'
+include ':app'
+rootProject.name = "AndroidSecureTools"
