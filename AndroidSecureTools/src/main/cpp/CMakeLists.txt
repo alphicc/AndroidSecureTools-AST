@@ -5,11 +5,18 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
+include_directories(G:/AndroidProject/cryptopp)
+set(cpp_dir G:/AndroidProject/cryptopp)
+file(GLOB cpp_src ${cpp_dir}/*.cpp)
+add_library(lib_cryptopp SHARED ${cpp_src})
+set_target_properties(lib_cryptopp PROPERTIES IMPORTED_LOCATION
+        G:/AndroidProject/AndroidSecureTools-AST/AndroidSecureTools/src/main/jniLibs/${ANDROID_ABI}/libcryptopp_shared.so
+        LINKER_LANGUAGE CXX)
+
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
-
 
 add_library( # Sets the name of the library.
         android-secure-tools-lib
@@ -40,5 +47,6 @@ find_library( # Sets the name of the path variable.
 
 target_link_libraries(
         android-secure-tools-lib
+        lib_cryptopp
 
         ${log-lib})
