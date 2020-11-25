@@ -5,12 +5,17 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
-include_directories(G:/AndroidProject/cryptopp)
-set(cpp_dir G:/AndroidProject/cryptopp)
+set (PROJECT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../../../)
+
+include(AndroidNdkModules)
+android_ndk_import_module_cpufeatures()
+
+include_directories(${PROJECT_PATH}/cryptopp)
+set(cpp_dir ${PROJECT_PATH}/cryptopp)
 file(GLOB cpp_src ${cpp_dir}/*.cpp)
 add_library(lib_cryptopp SHARED ${cpp_src})
 set_target_properties(lib_cryptopp PROPERTIES IMPORTED_LOCATION
-        G:/AndroidProject/AndroidSecureTools-AST/AndroidSecureTools/src/main/jniLibs/${ANDROID_ABI}/libcryptopp_shared.so
+        ${PROJECT_PATH}/AndroidSecureTools/src/main/jniLibs/${ANDROID_ABI}/libcryptopp_shared.so
         LINKER_LANGUAGE CXX)
 
 # Creates and names a library, sets it as either STATIC
@@ -50,3 +55,8 @@ target_link_libraries(
         lib_cryptopp
 
         ${log-lib})
+
+target_link_libraries(
+        lib_cryptopp
+
+        cpufeatures)
