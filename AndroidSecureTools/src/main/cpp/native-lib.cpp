@@ -1,5 +1,6 @@
 #include "iostream"
-#include "Rsa.cpp"
+#include "rsa.h"
 
 class Main {
+    CryptoPP::RSAFunction rsaFunction = CryptoPP::RSAFunction();
 };
