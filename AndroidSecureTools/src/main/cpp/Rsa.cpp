@@ -5,12 +5,14 @@
 
 class Rsa {
 
-    std::pair<CryptoPP::ByteQueue> generateKeyPair(int keyLength) {
+public:
+    std::pair<CryptoPP::ByteQueue, CryptoPP::ByteQueue> generateKeyPair(int keyLength) {
         CryptoPP::RandomNumberGenerator randomNumberGenerator;
         CryptoPP::RSA::PrivateKey privateKey;
         privateKey.GenerateRandomWithKeySize(randomNumberGenerator, keyLength);
         CryptoPP::RSA::PublicKey publicKey(privateKey);
         CryptoPP::ByteQueue queue;
-        privateKey.Save(queue)
+        privateKey.Save(queue);
+        return std::pair<CryptoPP::ByteQueue, CryptoPP::ByteQueue>(queue, queue);
     }
 };

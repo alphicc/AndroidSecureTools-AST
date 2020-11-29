@@ -4,7 +4,13 @@ import com.ast.utils.RsaKeyLength
 
 object AstRsa {
 
-    //fun generateKeyPair(rsaKeyLength: RsaKeyLength): Pair<ByteArray, ByteArray> {
-    //
-    //}
+    init {
+        System.loadLibrary("RsaConnector")
+    }
+
+    fun generateKeyPair(keyLength: RsaKeyLength) {
+        generateKeyPair(keyLength.length)
+    }
+
+    private external fun generateKeyPair(rsaKeyLength: Int): Array<ByteArray>
 }
