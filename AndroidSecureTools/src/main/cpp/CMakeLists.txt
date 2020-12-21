@@ -5,18 +5,18 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
-set (PROJECT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../../../)
+set(PROJECT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../../../)
 
 include(AndroidNdkModules)
-android_ndk_import_module_cpufeatures()
 
-include_directories(${PROJECT_PATH}/cryptopp)
-set(cpp_dir ${PROJECT_PATH}/cryptopp)
-file(GLOB cpp_src ${cpp_dir}/*.cpp)
-add_library(lib_cryptopp SHARED ${cpp_src})
-set_target_properties(lib_cryptopp PROPERTIES IMPORTED_LOCATION
-        ${PROJECT_PATH}/AndroidSecureTools/src/main/jniLibs/${ANDROID_ABI}/libcryptopp_shared.so
-        LINKER_LANGUAGE CXX)
+add_library(libcrypto STATIC IMPORTED)
+set_target_properties(libcrypto PROPERTIES IMPORTED_LOCATION
+        ${PROJECT_PATH}/AndroidSecureTools/src/main/jniLibs/${ANDROID_ABI}/libcrypto.a)
+
+add_library(libssl STATIC IMPORTED)
+set_target_properties(libssl PROPERTIES IMPORTED_LOCATION
+        ${PROJECT_PATH}/AndroidSecureTools/src/main/jniLibs/${ANDROID_ABI}/libssl.a)
+
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
@@ -30,7 +30,6 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        Rsa.cpp
         RsaConnector.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -46,17 +45,16 @@ find_library( # Sets the name of the path variable.
         # you want CMake to locate.
         log)
 
+target_include_directories(android-secure-tools-lib PRIVATE
+        ${PROJECT_PATH}/AndroidSecureTools/include)
+
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
 
 target_link_libraries(
         android-secure-tools-lib
-        lib_cryptopp
+        libcrypto
+        libssl
 
         ${log-lib})
-
-target_link_libraries(
-        lib_cryptopp
-
-        cpufeatures)
