@@ -1,7 +1,6 @@
 #include <android/log.h>
 #include <jni.h>
-#include "openssl/rsa.h"
-#include "dlfcn.h"
+#include "Rsa.cpp"
 
 #define  LOG_TAG    "Alpha"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
@@ -9,17 +8,12 @@
 extern "C" JNIEXPORT jobjectArray
 
 JNICALL Java_com_ast_AstRsa_generateKeyPair(JNIEnv *env, jobject obj, jint key) {
+
+    LOGD("dot %d", 111);
     int keyLength = (int) key;
-    LOGD("dot %d", 1);
 
-    RSA *key_pair = RSA_new();
-    BIGNUM *public_key_exponent = BN_new();
-    BN_set_word(public_key_exponent, RSA_F4);
-    int result = RSA_generate_key_ex(key_pair, 2048, public_key_exponent, nullptr);
-
-    if (!result) {
-        LOGD("dot %d", 111);
-    }
+    Rsa rsa = Rsa();
+    rsa.generateKeys(keyLength);
 
     LOGD("dot %d", 2);
     jobjectArray
