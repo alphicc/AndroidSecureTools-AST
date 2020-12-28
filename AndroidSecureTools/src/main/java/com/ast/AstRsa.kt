@@ -1,5 +1,6 @@
 package com.ast
 
+import android.content.Context
 import android.util.Log
 import com.ast.utils.RsaKeyLength
 
@@ -9,10 +10,10 @@ object AstRsa {
         System.loadLibrary("android-secure-tools-lib")
     }
 
-    fun generateKeyPair(keyLength: RsaKeyLength) {
-        val result = generateKeyPair(keyLength.length)
+    fun generateKeyPair(context: Context, keyLength: RsaKeyLength) {
+        val result = generateKeyPair(keyLength.length, context.packageName)
         Log.d("Alpha", "result ${result[0]} ${result[1]}")
     }
 
-    private external fun generateKeyPair(rsaKeyLength: Int): Array<String>
+    private external fun generateKeyPair(rsaKeyLength: Int, packageName: String): Array<String>
 }

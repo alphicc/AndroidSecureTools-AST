@@ -1,5 +1,6 @@
 #include <android/log.h>
 #include <jni.h>
+#include "string"
 #include "Rsa.cpp"
 
 #define  LOG_TAG    "Alpha"
@@ -7,13 +8,21 @@
 
 extern "C" JNIEXPORT jobjectArray
 
-JNICALL Java_com_ast_AstRsa_generateKeyPair(JNIEnv *env, jobject obj, jint key) {
+JNICALL
+Java_com_ast_AstRsa_generateKeyPair(JNIEnv *env, jobject obj, jint key, jstring packageName) {
 
     LOGD("dot %d", 111);
+
     int keyLength = (int) key;
 
+    jboolean isCopy = true;
+    int length = (size_t) env->GetStringLength(packageName);
+    const char *convertedValue = (env)->GetStringUTFChars(packageName, &isCopy);
+    std::string path = std::string(convertedValue, length);
+    (env)->ReleaseStringUTFChars(packageName, convertedValue);
+
     Rsa rsa = Rsa();
-    rsa.generateKeys(keyLength);
+    rsa.generateKeys(keyLength, convertedValue);
 
     LOGD("dot %d", 2);
     jobjectArray
