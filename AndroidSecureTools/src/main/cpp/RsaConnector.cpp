@@ -2,6 +2,7 @@
 #include <jni.h>
 #include "string"
 #include "Rsa.cpp"
+#include "Utils.cpp"
 
 #define  LOG_TAG    "Alpha"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
@@ -9,20 +10,18 @@
 extern "C" JNIEXPORT jobjectArray
 
 JNICALL
-Java_com_ast_AstRsa_generateKeyPair(JNIEnv *env, jobject obj, jint key, jstring packageName) {
-
+Java_com_ast_AstRsa_generateKeyPair(JNIEnv *env, jobject obj, jint key, jstring packageName,
+                                    jboolean encryptPrivateKey, jstring passphrase) {
     LOGD("dot %d", 111);
 
     int keyLength = (int) key;
 
-    jboolean isCopy = true;
-    int length = (size_t) env->GetStringLength(packageName);
-    const char *convertedValue = (env)->GetStringUTFChars(packageName, &isCopy);
-    std::string path = std::string(convertedValue, length);
-    (env)->ReleaseStringUTFChars(packageName, convertedValue);
+    std::string packageNameString = Utils::jString_to_cString(env, packageName);
+    std::string passphraseString = Utils::jString_to_cString(env, passphrase);
 
-    Rsa rsa = Rsa();
-    rsa.generateKeys(keyLength, convertedValue);
+    if (encryptPrivateKey) {
+        Rsa::generateKeys(keyLength, packageNameString, passphraseString);
+    } else Rsa::generateKeys(keyLength, packageNameString, "");
 
     LOGD("dot %d", 2);
     jobjectArray
