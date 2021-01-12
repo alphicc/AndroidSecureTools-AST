@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //AstRsa.generateKeyPair(this, RsaKeyLength.RSA_KEY_2048)
-        AstRsa.generateKeyPair(this, RsaKeyLength.RSA_KEY_2048, true, "myPhrase bla bla bla")
+        AstRsa.generateKeyPair(this, RsaKeyLength.RSA_KEY_2048)
+        //AstRsa.generateKeyPair(this, RsaKeyLength.RSA_KEY_2048, true, "myPhrase bla bla bla")
     }
 }

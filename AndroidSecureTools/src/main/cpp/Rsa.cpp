@@ -32,5 +32,8 @@ public:
         }
         fclose(publicKeyFile);
         fclose(privateKeyFile);
+
+        BN_free(e);
+        RSA_free(rsa);
     }
 };

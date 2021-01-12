@@ -12,11 +12,25 @@ object AstRsa {
 
     fun generateKeyPair(context: Context, keyLength: RsaKeyLength) {
         val result = generateKeyPair(keyLength.length, context.packageName, false, "")
+        result.forEach {
+            Log.d("Alpha", "key\n $it")
+        }
     }
 
-    fun generateKeyPair(context: Context, keyLength: RsaKeyLength, encryptPrivateKey: Boolean, passphrase: String) {
-        val result = generateKeyPair(keyLength.length, context.packageName, encryptPrivateKey, passphrase)
+    fun generateKeyPair(
+        context: Context,
+        keyLength: RsaKeyLength,
+        encryptPrivateKey: Boolean,
+        passphrase: String
+    ) {
+        val result =
+            generateKeyPair(keyLength.length, context.packageName, encryptPrivateKey, passphrase)
     }
 
-    private external fun generateKeyPair(rsaKeyLength: Int, packageName: String, encryptPrivateKey: Boolean, passphrase: String): Array<String>
+    private external fun generateKeyPair(
+        rsaKeyLength: Int,
+        packageName: String,
+        encryptPrivateKey: Boolean,
+        passphrase: String
+    ): Array<String>
 }
