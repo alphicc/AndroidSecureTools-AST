@@ -31,6 +31,8 @@ Java_com_ast_AstRsa_generateKeyPair(JNIEnv *env, jobject obj, jint key, jstring 
     std::string publicKey((std::istreambuf_iterator<char>(publicKeyIfs)),
                           (std::istreambuf_iterator<char>()));
 
+    Rsa::encryptWithStringKey(publicKey, packageNameString);
+
     std::ifstream privateKeyIfs("/data/data/" + packageNameString + "/private_key.pem");
     std::string privateKey((std::istreambuf_iterator<char>(privateKeyIfs)),
                            (std::istreambuf_iterator<char>()));

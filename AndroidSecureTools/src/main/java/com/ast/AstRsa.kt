@@ -12,9 +12,9 @@ object AstRsa {
 
     fun generateKeyPair(context: Context, keyLength: RsaKeyLength) {
         val result = generateKeyPair(keyLength.length, context.packageName, false, "")
-        result.forEach {
-            Log.d("Alpha", "key\n $it")
-        }
+        //result.forEach {
+        //    Log.d("Alpha", "key\n $it")
+        //}
     }
 
     fun generateKeyPair(

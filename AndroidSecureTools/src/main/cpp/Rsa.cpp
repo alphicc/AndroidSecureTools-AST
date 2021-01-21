@@ -5,6 +5,11 @@
 #include "openssl/pem.h"
 #include "openssl/bio.h"
 #include "openssl/x509.h"
+#include <openssl/engine.h>
+#include <android/log.h>
+
+#define  LOG_TAG    "Alpha"
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 class Rsa {
 
@@ -35,5 +40,83 @@ public:
 
         BN_free(e);
         RSA_free(rsa);
+    }
+
+    static void
+    encryptWithStringKey(const std::string &publicKey, std::string &data) {
+        RSA* public_key_;
+        BIO* bo = BIO_new(BIO_s_mem());
+        BIO_write(bo, publicKey.c_str(),publicKey.length());
+        PEM_read_bio_RSA_PUBKEY(bo, &public_key_, nullptr, nullptr );
+        LOGD("wrong guys %s", publicKey.c_str());
+        EVP_PKEY *pkey = EVP_PKEY_new();
+        EVP_PKEY_set1_RSA(pkey, public_key_);
+        //BIO *bo = BIO_new(BIO_s_mem());
+        //BIO_write(bo, publicKey.c_str(), publicKey.length());
+        //EVP_PKEY *pkey = nullptr;
+        //EVP_PKEY_set1_RSA()
+        //PEM_read_bio_PUBKEY(bo, &pkey, nullptr, nullptr);
+        LOGD("wrong guys %s", publicKey.c_str());
+        encryptData(pkey, data);
+        BIO_free(bo);
+        RSA_free(public_key_);
+        //BIO_free(bo);
+        //EVP_PKEY_free(pkey);
+    }
+
+private:
+    static void encryptData(EVP_PKEY *key, std::string &data) {
+        EVP_PKEY_CTX *ctx;
+        ENGINE *eng = ENGINE_get_default_RSA();
+        auto *in = (unsigned char *) data.c_str();
+        unsigned char *out;
+        size_t outlen;
+
+        /*
+         * NB: assumes eng, key, in, inlen are already set up,
+         * and that key is an RSA public key
+         */
+        LOGD("wrong guys %s", "0");
+        ctx = EVP_PKEY_CTX_new(key, eng);
+        if (!ctx) {
+            LOGD("wrong guys %s", "1");
+            /* Error occurred */
+        }
+        LOGD("wrong guys %s", "01");
+        if (EVP_PKEY_encrypt_init(ctx) <= 0) {
+            LOGD("wrong guys %s", "2");
+            /* Error */
+        }
+        LOGD("wrong guys %s", "02");
+        if (EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_OAEP_PADDING) <= 0) {
+            LOGD("wrong guys %s", "3");
+            /* Error */
+        }
+        LOGD("wrong guys %s", "03");
+
+        /* Determine buffer length */
+        if (EVP_PKEY_encrypt(ctx, nullptr, &outlen, in, data.length()) <= 0) {
+            LOGD("wrong guys %s", "4");
+            /* Error */
+        }
+        LOGD("wrong guys %s", "04");
+        out = (unsigned char *) OPENSSL_malloc(outlen);
+
+        LOGD("wrong guys %s", "05");
+        if (!out) {
+            LOGD("wrong guys %s", "5");
+            /* malloc failure */
+        }
+
+        LOGD("wrong guys %s", "06");
+        if (EVP_PKEY_encrypt(ctx, out, &outlen, in, data.length()) <= 0) {
+            LOGD("wrong guys %s", "6");
+            /* Error */
+        }
+        LOGD("wrong guys %s", "07");
+        EVP_PKEY_CTX_free(ctx);
+
+        /* Encrypted data is outlen bytes written to buffer out */
+        LOGD("wrong guys %s", out);
     }
 };
