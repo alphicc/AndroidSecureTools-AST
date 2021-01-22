@@ -44,19 +44,22 @@ public:
 
     static void
     encryptWithStringKey(const std::string &publicKey, std::string &data) {
-        RSA* public_key_;
-        BIO* bo = BIO_new(BIO_s_mem());
-        BIO_write(bo, publicKey.c_str(),publicKey.length());
-        PEM_read_bio_RSA_PUBKEY(bo, &public_key_, nullptr, nullptr );
+        RSA *public_key_ = RSA_new();
+        BIO *bo = BIO_new_mem_buf(publicKey.c_str(), publicKey.length());
+        BIO_write(bo, publicKey.c_str(), publicKey.length());
+        PEM_read_bio_RSA_PUBKEY(bo, &public_key_, nullptr, nullptr);
         LOGD("wrong guys %s", publicKey.c_str());
         EVP_PKEY *pkey = EVP_PKEY_new();
-        EVP_PKEY_set1_RSA(pkey, public_key_);
+        auto result = EVP_PKEY_set1_RSA(pkey, public_key_);
+        if (result <= 0) {
+            LOGD("chee");
+        }
         //BIO *bo = BIO_new(BIO_s_mem());
         //BIO_write(bo, publicKey.c_str(), publicKey.length());
         //EVP_PKEY *pkey = nullptr;
         //EVP_PKEY_set1_RSA()
         //PEM_read_bio_PUBKEY(bo, &pkey, nullptr, nullptr);
-        LOGD("wrong guys %s", publicKey.c_str());
+        LOGD("ne chee");
         encryptData(pkey, data);
         BIO_free(bo);
         RSA_free(public_key_);
@@ -67,9 +70,9 @@ public:
 private:
     static void encryptData(EVP_PKEY *key, std::string &data) {
         EVP_PKEY_CTX *ctx;
-        ENGINE *eng = ENGINE_get_default_RSA();
+        ENGINE *eng = ENGINE_new();
         auto *in = (unsigned char *) data.c_str();
-        unsigned char *out;
+        unsigned char *out = NULL;
         size_t outlen;
 
         /*
@@ -77,11 +80,12 @@ private:
          * and that key is an RSA public key
          */
         LOGD("wrong guys %s", "0");
-        ctx = EVP_PKEY_CTX_new(key, eng);
+        ctx = EVP_PKEY_CTX_new(key, nullptr);
         if (!ctx) {
             LOGD("wrong guys %s", "1");
             /* Error occurred */
         }
+
         LOGD("wrong guys %s", "01");
         if (EVP_PKEY_encrypt_init(ctx) <= 0) {
             LOGD("wrong guys %s", "2");
@@ -93,6 +97,13 @@ private:
             /* Error */
         }
         LOGD("wrong guys %s", "03");
+
+        //BIGNUM *e = BN_new();
+        //BN_set_word(e, RSA_F4);
+        //if (EVP_PKEY_CTX_set_rsa_keygen_pubexp(ctx, e) <= 0) {
+        //    LOGD("not good");
+        //    /* Error */
+        //}
 
         /* Determine buffer length */
         if (EVP_PKEY_encrypt(ctx, nullptr, &outlen, in, data.length()) <= 0) {
