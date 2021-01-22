@@ -47,7 +47,7 @@ public:
         RSA *public_key_ = RSA_new();
         BIO *bo = BIO_new_mem_buf(publicKey.c_str(), publicKey.length());
         BIO_write(bo, publicKey.c_str(), publicKey.length());
-        PEM_read_bio_RSA_PUBKEY(bo, &public_key_, nullptr, nullptr);
+        PEM_read_bio_RSAPublicKey(bo, &public_key_, nullptr, nullptr);
         LOGD("wrong guys %s", publicKey.c_str());
         EVP_PKEY *pkey = EVP_PKEY_new();
         auto result = EVP_PKEY_set1_RSA(pkey, public_key_);
