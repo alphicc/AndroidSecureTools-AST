@@ -11,7 +11,11 @@ object AstRsa {
     }
 
     fun generateKeyPair(context: Context, keyLength: RsaKeyLength) {
-        val result = generateKeyPair(keyLength.length, context.packageName, false, "")
+        try {
+            val result = generateKeyPair(keyLength.length, context.packageName, false, "")
+        } catch (exception: Exception) {
+            Log.d("Alpha", " Throw ${exception.message}")
+        }
         //result.forEach {
         //    Log.d("Alpha", "key\n $it")
         //}
@@ -33,4 +37,6 @@ object AstRsa {
         encryptPrivateKey: Boolean,
         passphrase: String
     ): Array<String>
+
+    private external fun encryptString(publicKey: String, data: String): String
 }
