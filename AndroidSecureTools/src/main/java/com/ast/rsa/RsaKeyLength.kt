@@ -1,4 +1,4 @@
-package com.ast.utils
+package com.ast.rsa
 
 enum class RsaKeyLength(val length: Int) {
     RSA_KEY_512(512),
