@@ -1,9 +1,11 @@
 package com.ast.rsa
 
 import android.content.Context
+import androidx.annotation.WorkerThread
 import com.ast.rsa.models.RsaKeys
 import kotlin.jvm.Throws
 
+@WorkerThread
 object AstRsa {
 
     init {
@@ -39,6 +41,9 @@ object AstRsa {
     @Throws(java.lang.Exception::class)
     fun encryptData(publicKey: String, data: String): String = encryptString(publicKey, data)
 
+    @Throws(java.lang.Exception::class)
+    fun decryptData(privateKey: String, data: String): String = decryptString(privateKey, data.trim())
+
     private external fun generateKeyPair(
         rsaKeyLength: Int,
         packageName: String,
@@ -47,4 +52,6 @@ object AstRsa {
     ): Array<String>
 
     private external fun encryptString(publicKey: String, data: String): String
+
+    private external fun decryptString(privateKey: String, data: String): String
 }

@@ -58,3 +58,21 @@ Java_com_ast_rsa_AstRsa_encryptString(JNIEnv *env, jobject obj, jstring publicKe
         return env->NewStringUTF(result.data.c_str());
     }
 }
+
+extern "C" JNIEXPORT jstring
+
+JNICALL
+Java_com_ast_rsa_AstRsa_decryptString(JNIEnv *env, jobject obj, jstring privateKey, jstring data) {
+    std::string dataString = Utils::jString_to_cString(env, data);
+    std::string publicKeyString = Utils::jString_to_cString(env, privateKey);
+    auto result = Rsa::decryptWithStringKey(publicKeyString, dataString);
+
+    if (result.resultCode <= 0) {
+        jclass exception = env->FindClass("java/lang/Exception");
+        auto *message = (const char *) result.message.c_str();
+        env->ThrowNew(exception, message);
+        return nullptr;
+    } else {
+        return env->NewStringUTF(result.data.c_str());
+    }
+}
