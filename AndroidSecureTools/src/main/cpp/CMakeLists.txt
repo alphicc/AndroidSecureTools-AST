@@ -22,6 +22,8 @@ set_target_properties(libssl PROPERTIES IMPORTED_LOCATION
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
+file(GLOB AES CONFIGURE_DEPENDS "aes/*.h" "aes/*.cpp")
+file(GLOB UTILS CONFIGURE_DEPENDS "utils/*.h" "utils/*.cpp")
 
 add_library( # Sets the name of the library.
         android-secure-tools-lib
@@ -33,7 +35,35 @@ add_library( # Sets the name of the library.
         RsaInteractor.cpp
         Rsa.cpp
 
-        Utils.cpp)
+        #aes/aesInteractor.cpp
+        #aes.cpp
+        
+        ${AES}
+        ${UTILS}
+        #aes/aesKeyGenResult.cpp
+        #aes/aesKeyGenResult.cpp
+        #/aes/aesKeyGenResult.cpp
+        #/aes/aesKeyGenResult.h
+
+        #Utils.cpp
+        )
+#add_library(android-secure-tools-lib SHARED ${AES})
+
+##include_directories(/aes/)
+##add_library(
+##        android-secure-tools-lib
+##
+##        SHARED
+##
+##        /aes/aesKeyGenResult.cpp)
+
+# AES
+#add_library(
+#        android-secure-tools-lib
+#        SHARED
+#        aes/aesKeyGenResult.cpp
+#        #/aes/aesKeyGenResult.h
+#)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by

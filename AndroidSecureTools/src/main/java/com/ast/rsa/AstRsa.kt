@@ -12,7 +12,7 @@ object AstRsa {
         System.loadLibrary("android-secure-tools-lib")
     }
 
-    fun generateKeyPair(context: Context, keyLength: RsaKeyLength): RsaKeys {
+    fun generateKeyPair(context: Context, keyLength: com.ast.rsa.RsaKeyType): RsaKeys {
         val result = generateKeyPair(
             keyLength.length,
             context.packageName,
@@ -24,7 +24,7 @@ object AstRsa {
 
     fun generateKeyPair(
         context: Context,
-        keyLength: RsaKeyLength,
+        keyLength: com.ast.rsa.RsaKeyType,
         encryptPrivateKey: Boolean,
         passphrase: String
     ): RsaKeys {
