@@ -35,10 +35,25 @@ public:
 
     static void
     generateKeys(int keyLength, const std::string &packageName, const std::string &passphrase) {
-        RSA *rsa = RSA_new();
-        BIGNUM *e = BN_new();
-        BN_set_word(e, RSA_F4);
-        RSA_generate_key_ex(rsa, keyLength, e, nullptr);
+        EVP_PKEY_CTX *ctx;
+        EVP_PKEY *pkey = nullptr;
+
+        ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, nullptr);
+        if (!ctx) {
+            return;
+        }
+        if (EVP_PKEY_keygen_init(ctx) <= 0) {
+            return;
+        }
+        if (EVP_PKEY_CTX_set_rsa_keygen_bits(ctx, keyLength) <= 0) {
+            return;
+        }
+        if (EVP_PKEY_keygen(ctx, &pkey) <= 0) {
+            return;
+        }
+
+        RSA *rsa = EVP_PKEY_get1_RSA(pkey);
+
         std::string pathPublicKey = "/data/data/" + packageName + "/public_key.pem";
         std::string pathPrivateKey = "/data/data/" + packageName + "/private_key.pem";
         FILE *publicKeyFile = fopen(pathPublicKey.c_str(), "wb");
@@ -56,8 +71,6 @@ public:
         }
         fclose(publicKeyFile);
         fclose(privateKeyFile);
-
-        BN_free(e);
         RSA_free(rsa);
     }
 
@@ -89,19 +102,15 @@ public:
     static RsaResult decryptWithStringKey(const std::string &privateKey, std::string &data) {
         RsaResult result = RsaResult();
 
-        RSA *rsa = RSA_new();
+        EVP_PKEY *pKey = EVP_PKEY_new();
         BIO *bo = BIO_new_mem_buf(privateKey.c_str(), privateKey.length());
         BIO_write(bo, privateKey.c_str(), privateKey.length());
-        PEM_read_bio_RSAPrivateKey(bo, &rsa, nullptr, nullptr);
-
-        EVP_PKEY *pKey = EVP_PKEY_new();
-        EVP_PKEY_set1_RSA(pKey, rsa);
+        PEM_read_bio_PrivateKey(bo, &pKey, nullptr, nullptr);
 
         auto decodedData = decodeString(data);
         result = decryptData(pKey, decodedData.first, decodedData.second);
 
         BIO_free(bo);
-        RSA_free(rsa);
         EVP_PKEY_free(pKey);
 
         return result;
@@ -183,11 +192,9 @@ private:
         if (EVP_PKEY_decrypt(ctx, out, &outLength, data, dataLength) <= 0) {
             result = RsaResult(-1, "UnknownError (Rsa" + std::to_string(__LINE__) + ")");
         }
-
         EVP_PKEY_CTX_free(ctx);
         OPENSSL_free(out);
 
-        //std::string decryptedString(reinterpret_cast<char const *>(out), outLength);
         std::string decryptedString((char *) out, outLength);
         result.data = decryptedString;
 
