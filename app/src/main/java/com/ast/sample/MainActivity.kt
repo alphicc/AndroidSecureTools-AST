@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.ast.hash.AstMd5
+import com.ast.hash.AstHash
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,8 +13,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val hash = AstMd5.hash(message = "123")
+        val hash = AstHash.md5(message = "123")
         Log.d("Alpha", "Hash Result = $hash")
+
+        val hashsha1 = AstHash.sha1(message = "123")
+        Log.d("Alpha", "Sha1 Hash Result = $hashsha1")
+
+        val hashsha256 = AstHash.sha256(message = "123")
+        Log.d("Alpha", "Sha256 Hash Result = $hashsha256")
         //var rsaKeys = AstRsa.generateKeyPair(this, RsaKeyType.RSA_KEY_8192)
         //Log.d("Alpha", "${rsaKeys.publicKey}\n===\n${rsaKeys.privateKey}")
         //val encryptedData1 = AstRsa.encryptData(rsaKeys.publicKey, "1")

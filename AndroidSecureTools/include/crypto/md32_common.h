@@ -48,7 +48,7 @@
  *      name of "block" function capable of treating *unaligned* input
  *      message in original (data) byte order, implemented externally.
  * HASH_MAKE_STRING
- *      macro converting context variables to an ASCII hash string.
+ *      macro converting context variables to an ASCII md5 string.
  *
  * MD5 example:
  *

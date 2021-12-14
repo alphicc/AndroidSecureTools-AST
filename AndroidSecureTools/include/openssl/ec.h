@@ -1178,20 +1178,20 @@ const BIGNUM *ECDSA_SIG_get0_s(const ECDSA_SIG *sig);
  */
 int ECDSA_SIG_set0(ECDSA_SIG *sig, BIGNUM *r, BIGNUM *s);
 
-/** Computes the ECDSA signature of the given hash value using
+/** Computes the ECDSA signature of the given md5 value using
  *  the supplied private key and returns the created signature.
- *  \param  dgst      pointer to the hash value
- *  \param  dgst_len  length of the hash value
+ *  \param  dgst      pointer to the md5 value
+ *  \param  dgst_len  length of the md5 value
  *  \param  eckey     EC_KEY object containing a private EC key
  *  \return pointer to a ECDSA_SIG structure or NULL if an error occurred
  */
 ECDSA_SIG *ECDSA_do_sign(const unsigned char *dgst, int dgst_len,
                          EC_KEY *eckey);
 
-/** Computes ECDSA signature of a given hash value using the supplied
+/** Computes ECDSA signature of a given md5 value using the supplied
  *  private key (note: sig must point to ECDSA_size(eckey) bytes of memory).
- *  \param  dgst     pointer to the hash value to sign
- *  \param  dgstlen  length of the hash value
+ *  \param  dgst     pointer to the md5 value to sign
+ *  \param  dgstlen  length of the md5 value
  *  \param  kinv     BIGNUM with a pre-computed inverse k (optional)
  *  \param  rp       BIGNUM with a pre-computed rp value (optional),
  *                   see ECDSA_sign_setup
@@ -1203,9 +1203,9 @@ ECDSA_SIG *ECDSA_do_sign_ex(const unsigned char *dgst, int dgstlen,
                             EC_KEY *eckey);
 
 /** Verifies that the supplied signature is a valid ECDSA
- *  signature of the supplied hash value using the supplied public key.
- *  \param  dgst      pointer to the hash value
- *  \param  dgst_len  length of the hash value
+ *  signature of the supplied md5 value using the supplied public key.
+ *  \param  dgst      pointer to the md5 value
+ *  \param  dgst_len  length of the md5 value
  *  \param  sig       ECDSA_SIG structure
  *  \param  eckey     EC_KEY object containing a public EC key
  *  \return 1 if the signature is valid, 0 if the signature is invalid
@@ -1223,11 +1223,11 @@ int ECDSA_do_verify(const unsigned char *dgst, int dgst_len,
  */
 int ECDSA_sign_setup(EC_KEY *eckey, BN_CTX *ctx, BIGNUM **kinv, BIGNUM **rp);
 
-/** Computes ECDSA signature of a given hash value using the supplied
+/** Computes ECDSA signature of a given md5 value using the supplied
  *  private key (note: sig must point to ECDSA_size(eckey) bytes of memory).
  *  \param  type     this parameter is ignored
- *  \param  dgst     pointer to the hash value to sign
- *  \param  dgstlen  length of the hash value
+ *  \param  dgst     pointer to the md5 value to sign
+ *  \param  dgstlen  length of the md5 value
  *  \param  sig      memory for the DER encoded created signature
  *  \param  siglen   pointer to the length of the returned signature
  *  \param  eckey    EC_KEY object containing a private EC key
@@ -1236,11 +1236,11 @@ int ECDSA_sign_setup(EC_KEY *eckey, BN_CTX *ctx, BIGNUM **kinv, BIGNUM **rp);
 int ECDSA_sign(int type, const unsigned char *dgst, int dgstlen,
                unsigned char *sig, unsigned int *siglen, EC_KEY *eckey);
 
-/** Computes ECDSA signature of a given hash value using the supplied
+/** Computes ECDSA signature of a given md5 value using the supplied
  *  private key (note: sig must point to ECDSA_size(eckey) bytes of memory).
  *  \param  type     this parameter is ignored
- *  \param  dgst     pointer to the hash value to sign
- *  \param  dgstlen  length of the hash value
+ *  \param  dgst     pointer to the md5 value to sign
+ *  \param  dgstlen  length of the md5 value
  *  \param  sig      buffer to hold the DER encoded signature
  *  \param  siglen   pointer to the length of the returned signature
  *  \param  kinv     BIGNUM with a pre-computed inverse k (optional)
@@ -1254,10 +1254,10 @@ int ECDSA_sign_ex(int type, const unsigned char *dgst, int dgstlen,
                   const BIGNUM *kinv, const BIGNUM *rp, EC_KEY *eckey);
 
 /** Verifies that the given signature is valid ECDSA signature
- *  of the supplied hash value using the specified public key.
+ *  of the supplied md5 value using the specified public key.
  *  \param  type     this parameter is ignored
- *  \param  dgst     pointer to the hash value
- *  \param  dgstlen  length of the hash value
+ *  \param  dgst     pointer to the md5 value
+ *  \param  dgstlen  length of the md5 value
  *  \param  sig      pointer to the DER encoded signature
  *  \param  siglen   length of the DER encoded signature
  *  \param  eckey    EC_KEY object containing a public EC key

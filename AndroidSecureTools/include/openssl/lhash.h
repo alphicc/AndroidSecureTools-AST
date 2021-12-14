@@ -8,7 +8,7 @@
  */
 
 /*
- * Header for dynamic hash table routines Author - Eric Young
+ * Header for dynamic md5 table routines Author - Eric Young
  */
 
 #ifndef HEADER_LHASH_H
@@ -37,7 +37,7 @@ typedef struct lhash_st OPENSSL_LHASH;
  * DECLARE and IMPLEMENT macros if the functions are strictly internal.
  */
 
-/* First: "hash" functions */
+/* First: "md5" functions */
 # define DECLARE_LHASH_HASH_FN(name, o_type) \
         unsigned long name##_LHASH_HASH(const void *);
 # define IMPLEMENT_LHASH_HASH_FN(name, o_type) \

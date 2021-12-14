@@ -1,5 +1,5 @@
 package com.ast.hash.models
 
-data class Md5Result(
+data class HashResult(
     val hash: String
 )

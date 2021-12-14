@@ -103,7 +103,7 @@ struct X509_crl_st {
     ASN1_INTEGER *crl_number;
     ASN1_INTEGER *base_crl_number;
     STACK_OF(GENERAL_NAMES) *issuers;
-    /* hash of CRL */
+    /* md5 of CRL */
     unsigned char sha1_hash[SHA_DIGEST_LENGTH];
     /* alternative method to handle this CRL */
     const X509_CRL_METHOD *meth;

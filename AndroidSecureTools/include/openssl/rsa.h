@@ -285,7 +285,7 @@ struct rsa_pss_params_st {
     X509_ALGOR *maskGenAlgorithm;
     ASN1_INTEGER *saltLength;
     ASN1_INTEGER *trailerField;
-    /* Decoded hash algorithm from maskGenAlgorithm */
+    /* Decoded md5 algorithm from maskGenAlgorithm */
     X509_ALGOR *maskHash;
 };
 
@@ -295,7 +295,7 @@ typedef struct rsa_oaep_params_st {
     X509_ALGOR *hashFunc;
     X509_ALGOR *maskGenFunc;
     X509_ALGOR *pSourceFunc;
-    /* Decoded hash algorithm from maskGenFunc */
+    /* Decoded md5 algorithm from maskGenFunc */
     X509_ALGOR *maskHash;
 } RSA_OAEP_PARAMS;
 

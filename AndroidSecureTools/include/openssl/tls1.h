@@ -165,7 +165,7 @@ extern "C" {
 # define TLSEXT_ECPOINTFORMAT_ansiX962_compressed_char2  2
 # define TLSEXT_ECPOINTFORMAT_last                       2
 
-/* Signature and hash algorithms from RFC5246 */
+/* Signature and md5 algorithms from RFC5246 */
 # define TLSEXT_signature_anonymous                      0
 # define TLSEXT_signature_rsa                            1
 # define TLSEXT_signature_dsa                            2

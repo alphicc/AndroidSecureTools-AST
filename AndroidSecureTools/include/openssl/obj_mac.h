@@ -4185,12 +4185,12 @@
 #define OBJ_id_tc26_digest              OBJ_id_tc26_algorithms,2L
 
 #define SN_id_GostR3411_2012_256                "md_gost12_256"
-#define LN_id_GostR3411_2012_256                "GOST R 34.11-2012 with 256 bit hash"
+#define LN_id_GostR3411_2012_256                "GOST R 34.11-2012 with 256 bit md5"
 #define NID_id_GostR3411_2012_256               982
 #define OBJ_id_GostR3411_2012_256               OBJ_id_tc26_digest,2L
 
 #define SN_id_GostR3411_2012_512                "md_gost12_512"
-#define LN_id_GostR3411_2012_512                "GOST R 34.11-2012 with 512 bit hash"
+#define LN_id_GostR3411_2012_512                "GOST R 34.11-2012 with 512 bit md5"
 #define NID_id_GostR3411_2012_512               983
 #define OBJ_id_GostR3411_2012_512               OBJ_id_tc26_digest,3L
 
