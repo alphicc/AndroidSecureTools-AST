@@ -24,6 +24,7 @@ set_target_properties(libssl PROPERTIES IMPORTED_LOCATION
 # Gradle automatically packages shared libraries with your APK.
 file(GLOB AES CONFIGURE_DEPENDS "aes/*.h" "aes/*.cpp")
 file(GLOB UTILS CONFIGURE_DEPENDS "utils/*.h" "utils/*.cpp")
+file(GLOB HASH CONFIGURE_DEPENDS "hash/*.h" "hash/*.cpp")
 
 add_library( # Sets the name of the library.
         android-secure-tools-lib
@@ -40,6 +41,7 @@ add_library( # Sets the name of the library.
         
         ${AES}
         ${UTILS}
+        ${HASH}
         #aes/aesKeyGenResult.cpp
         #aes/aesKeyGenResult.cpp
         #/aes/aesKeyGenResult.cpp

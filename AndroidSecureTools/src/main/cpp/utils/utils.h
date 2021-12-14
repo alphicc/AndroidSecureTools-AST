@@ -12,8 +12,12 @@
 class Utils {
 public:
     std::string encodeString(unsigned char *data, size_t length);
-    std::pair<unsigned char *, size_t> decodeString(const std::string& data);
+
+    std::pair<unsigned char *, size_t> decodeString(const std::string &data);
+
     std::string jstrTocstr(JNIEnv *env, jstring string);
+
+    static std::string charArrayToString(const unsigned char *input, size_t length);
 };
 
 

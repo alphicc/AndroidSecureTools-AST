@@ -10,6 +10,9 @@
 #define  LOG_TAG    "Alpha"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
+char const hex_chars[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C',
+                            'D', 'E', 'F'};
+
 std::string Utils::encodeString(unsigned char *data, size_t length) {
     EVP_ENCODE_CTX *evpEncodeCtx = EVP_ENCODE_CTX_new();
 
@@ -69,4 +72,15 @@ std::string Utils::jstrTocstr(JNIEnv *env, jstring string) {
     (env)->ReleaseStringUTFChars(string, convertedValue);
 
     return convertedValue;
+}
+
+std::string Utils::charArrayToString(const unsigned char *input, size_t length) {
+    std::string result;
+    for (int i = 0; i < length; ++i) {
+        unsigned char const byte = input[i];
+
+        result += hex_chars[(byte & 0xF0) >> 4];
+        result += hex_chars[(byte & 0x0F) >> 0];
+    }
+    return result;
 }

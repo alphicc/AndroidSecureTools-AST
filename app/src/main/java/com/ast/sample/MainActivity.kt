@@ -4,11 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.ast.aes.AesKeyType
-import com.ast.aes.AstAes
-import com.ast.aes.Cipher
-import com.ast.rsa.AstRsa
-import com.ast.rsa.RsaKeyType
+import com.ast.hash.AstMd5
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,12 +13,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-       //var rsaKeys = AstRsa.generateKeyPair(this, RsaKeyType.RSA_KEY_8192)
-       //Log.d("Alpha", "${rsaKeys.publicKey}\n===\n${rsaKeys.privateKey}")
-       //val encryptedData1 = AstRsa.encryptData(rsaKeys.publicKey, "1")
-       //Log.d("Alpha", "encryptedData1 ${encryptedData1}")
-       //val decryptedData1 = AstRsa.decryptData(rsaKeys.privateKey, encryptedData1)
-       // Log.d("Alpha", "decryptedData1 ${decryptedData1}")
+        val hash = AstMd5.hash(message = "123")
+        Log.d("Alpha", "Hash Result = $hash")
+        //var rsaKeys = AstRsa.generateKeyPair(this, RsaKeyType.RSA_KEY_8192)
+        //Log.d("Alpha", "${rsaKeys.publicKey}\n===\n${rsaKeys.privateKey}")
+        //val encryptedData1 = AstRsa.encryptData(rsaKeys.publicKey, "1")
+        //Log.d("Alpha", "encryptedData1 ${encryptedData1}")
+        //val decryptedData1 = AstRsa.decryptData(rsaKeys.privateKey, encryptedData1)
+        // Log.d("Alpha", "decryptedData1 ${decryptedData1}")
 
         //val result = AstRsa.generateKeyPair(this, RsaKeyType.RSA_KEY_2048)
         //Log.d("DebugInfo", "\n${result.publicKey}\n${result.privateKey}")
